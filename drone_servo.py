@@ -1,34 +1,22 @@
-#import RPi.GPIO as GPIO
-import time
+from gpiozero import Servo
+from time import sleep
 
-control = [5,5.5,6,6.5,7,7.5,8,8.5,9,9.5,10]
-
-servo = 22
-
-#GPIO.setmode(GPIO.BOARD)
-
-#GPIO.setup(servo,GPIO.OUT)
-#p = GPIO.PWM(servo,50)# 50hz frequency
-
+# Use GPIO pin 22
+servo = Servo(22)
 
 def dropPackage():
-  try:
-    time.sleep(5)
-    print('Servo started...')
-    # time.sleep(1)
-    # setAngle(180)
-    # time.sleep(5)
-    # setAngle(0 )
-    # p.stop()
-    # GPIO.cleanup()
-  except KeyboardInterrupt:
-    print('Servo error..')
-    # p.stop()
-    # GPIO.cleanup()
+    try:
+        print('Servo started...')
+        sleep(1)
+        setAngle(1)  # set to 180 degrees
+        sleep(5)
+        setAngle(-1)  # set to 0 degrees
+    except KeyboardInterrupt:
+        print('Servo interrupted..')
 
-# def setAngle(angle):
-#     duty = angle / 18 + 3
-#     p.ChangeDutyCycle(duty)
-#     time.sleep(1)
-    
-# p.start(2.5)# starting duty cycle ( it set the servo to 0 degree )
+def setAngle(position):
+    servo.value = position
+    sleep(1)
+
+# Start at 0 degrees (equivalent to position -1)
+setAngle(-1)
